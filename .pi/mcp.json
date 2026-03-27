@@ -1,0 +1,14 @@
+{
+  "settings": {
+    "directTools": false,
+    "idleTimeout": 10
+  },
+  "mcpServers": {
+    "samskara-reader": {
+      "command": "samskara-reader-mcp",
+      "lifecycle": "lazy",
+      "exposeResources": true
+    }
+  }
+}
+
