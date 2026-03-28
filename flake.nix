@@ -32,7 +32,6 @@
   };
 
   outputs = inputs@{
-    self,
     nixpkgs,
     flake-utils,
     crane,
@@ -53,30 +52,26 @@
         };
 
         piLinkupExtension = import ./nix/pi-linkup-extension.nix {
-          inherit lib pkgs;
+          inherit pkgs;
         };
 
-        piSubagentsExtension = import ./nix/pi-subagents-extension.nix {
-          inherit lib pkgs;
-        };
-
-        piSubagentsAdapter = import ./nix/pi-subagents-adapter.nix {
-          inherit lib pkgs;
+        piInteractiveShellExtension = import ./nix/pi-interactive-shell-extension.nix {
+          inherit pkgs;
         };
 
         piMcpAdapterExtension = import ./nix/pi-mcp-adapter-extension.nix {
-          inherit lib pkgs;
+          inherit pkgs;
         };
 
         samskaraReader = import ./nix/samskara-reader.nix {
-          inherit craneLib lib pkgs;
+          inherit craneLib pkgs;
           criomeCozoSrc = inputs.criome-cozo-src;
           samskaraCoreSrc = inputs.samskara-core-src;
           src = inputs.samskara-reader-src;
         };
 
         samskaraReaderMcp = import ./nix/samskara-reader-mcp.nix {
-          inherit lib pkgs samskaraReader;
+          inherit pkgs samskaraReader;
         };
 
         piMentci = import ./nix/pi-mentci.nix {
@@ -84,16 +79,15 @@
             lib
             pkgs
             pi
+            piInteractiveShellExtension
             piLinkupExtension
             piMcpAdapterExtension
-            piSubagentsAdapter
-            piSubagentsExtension
             samskaraReaderMcp
             ;
         };
 
         devShell = import ./nix/dev-shell.nix {
-          inherit lib pkgs piMentci;
+          inherit pkgs piMentci;
         };
 
         packageCheck = import ./nix/package-check.nix {
@@ -104,10 +98,9 @@
         packages = {
           inherit
             pi
+            piInteractiveShellExtension
             piLinkupExtension
             piMcpAdapterExtension
-            piSubagentsAdapter
-            piSubagentsExtension
             piMentci
             samskaraReader
             samskaraReaderMcp

@@ -3,7 +3,7 @@
 Minimal Nix-packaged Pi environment with:
 
 - `@aliou/pi-linkup`
-- `@oh-my-pi/subagents`
+- `pi-interactive-shell`
 - `samskara-reader` via MCP
 
 ## Usage
@@ -14,4 +14,3 @@ pi
 ```
 
 Project MCP wiring lives in [`.pi/mcp.json`](/home/li/git/Pi-Mentci/.pi/mcp.json).
-

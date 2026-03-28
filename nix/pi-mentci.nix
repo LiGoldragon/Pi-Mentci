@@ -2,10 +2,9 @@
   lib,
   pkgs,
   pi,
+  piInteractiveShellExtension,
   piLinkupExtension,
   piMcpAdapterExtension,
-  piSubagentsAdapter,
-  piSubagentsExtension,
   samskaraReaderMcp,
 }:
 
@@ -22,11 +21,9 @@ pkgs.stdenvNoCC.mkDerivation {
     chmod -R u+w "$out/lib/node_modules/pi"
 
     mkdir -p "$out/lib/node_modules/pi/node_modules/@aliou"
-    mkdir -p "$out/lib/node_modules/pi/node_modules/@oh-my-pi"
 
     ln -s "${piLinkupExtension}" "$out/lib/node_modules/pi/node_modules/@aliou/pi-linkup"
-    ln -s "${piSubagentsExtension}" "$out/lib/node_modules/pi/node_modules/@oh-my-pi/subagents"
-    ln -s "${piSubagentsAdapter}" "$out/lib/node_modules/pi/node_modules/pi-subagents-adapter"
+    ln -s "${piInteractiveShellExtension}" "$out/lib/node_modules/pi/node_modules/pi-interactive-shell"
     ln -s "${piMcpAdapterExtension}" "$out/lib/node_modules/pi/node_modules/pi-mcp-adapter"
 
     mkdir -p "$out/bin"
@@ -46,7 +43,7 @@ export PATH="__PI_MENTCI_PATH__:''${PATH}"
 
 exec ${pkgs.nodejs}/bin/node "''${PI_PACKAGE_DIR}/dist/cli.js" \
   --extension "''${PI_PACKAGE_DIR}/node_modules/@aliou/pi-linkup" \
-  --extension "''${PI_PACKAGE_DIR}/node_modules/pi-subagents-adapter" \
+  --extension "''${PI_PACKAGE_DIR}/node_modules/pi-interactive-shell" \
   --extension "''${PI_PACKAGE_DIR}/node_modules/pi-mcp-adapter" \
   "$@"
 EOF
@@ -61,4 +58,3 @@ EOF
     runHook postInstall
   '';
 }
-

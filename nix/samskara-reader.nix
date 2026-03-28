@@ -1,6 +1,5 @@
 {
   craneLib,
-  lib,
   pkgs,
   criomeCozoSrc,
   samskaraCoreSrc,
@@ -33,4 +32,3 @@ craneLib.buildPackage (
     inherit cargoArtifacts;
   }
 )
-

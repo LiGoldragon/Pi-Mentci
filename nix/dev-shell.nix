@@ -1,5 +1,4 @@
 {
-  lib,
   pkgs,
   piMentci,
 }:
@@ -9,8 +8,6 @@ pkgs.mkShell {
 
   packages = [
     piMentci
-    pkgs.jq
-    pkgs.sqlite
   ];
 
   shellHook = ''
@@ -18,11 +15,19 @@ pkgs.mkShell {
     mkdir -p "$PI_CODING_AGENT_DIR"/{agents,commands,extensions,prompts,sessions,skills,themes,tools}
 
     if [ ! -e "$PI_CODING_AGENT_DIR/models.json" ]; then
-      printf '{\n  "providers": {}\n}\n' > "$PI_CODING_AGENT_DIR/models.json"
+      if [ -e "$HOME/.pi/agent/models.json" ]; then
+        cp "$HOME/.pi/agent/models.json" "$PI_CODING_AGENT_DIR/models.json"
+      else
+        printf '{\n  "providers": {}\n}\n' > "$PI_CODING_AGENT_DIR/models.json"
+      fi
     fi
 
     if [ ! -e "$PI_CODING_AGENT_DIR/settings.json" ]; then
-      printf '{\n  "packages": []\n}\n' > "$PI_CODING_AGENT_DIR/settings.json"
+      if [ -e "$HOME/.pi/agent/settings.json" ]; then
+        cp "$HOME/.pi/agent/settings.json" "$PI_CODING_AGENT_DIR/settings.json"
+      else
+        printf '{\n  "packages": []\n}\n' > "$PI_CODING_AGENT_DIR/settings.json"
+      fi
     fi
 
     export PI_SHARED_AUTH_FILE="$HOME/.pi/agent/auth.json"
@@ -40,4 +45,3 @@ pkgs.mkShell {
     export PI_PACKAGE_DIR="$PI_SOURCE_STABLE_LINK"
   '';
 }
-
