@@ -70,6 +70,22 @@
         "type": "github"
       }
     },
+    "mentci-user-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1772979640,
+        "narHash": "sha256-mN8Fr9ARSvMFuk+gzcPzWkVEKWx9AWY+fU9K0JZCNz4=",
+        "owner": "LiGoldragon",
+        "repo": "mentci-user",
+        "rev": "1d3f6d42cc782376156cbf9576bad38ccda30cc5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "LiGoldragon",
+        "repo": "mentci-user",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1774273680,
@@ -109,6 +125,7 @@
         "criome-cozo-src": "criome-cozo-src",
         "fenix": "fenix",
         "flake-utils": "flake-utils",
+        "mentci-user-src": "mentci-user-src",
         "nixpkgs": "nixpkgs",
         "pi-src": "pi-src",
         "samskara-core-src": "samskara-core-src",

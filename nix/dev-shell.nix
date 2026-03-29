@@ -1,6 +1,8 @@
 {
   pkgs,
   piMentci,
+  mentciUser,
+  mentciUserSrc,
 }:
 
 pkgs.mkShell {
@@ -8,6 +10,7 @@ pkgs.mkShell {
 
   packages = [
     piMentci
+    mentciUser
   ];
 
   shellHook = ''
@@ -36,6 +39,21 @@ pkgs.mkShell {
       mv "$PI_CODING_AGENT_DIR/auth.json" "$PI_CODING_AGENT_DIR/auth.json.bak.$(date +%s)"
     fi
     ln -sfn "$PI_SHARED_AUTH_FILE" "$PI_CODING_AGENT_DIR/auth.json"
+
+    export MENTCI_USER_SETUP_BIN="${mentciUserSrc}/data/setup.bin"
+    mkdir -p "$(pwd)/.mentci"
+    if [ ! -e "$(pwd)/.mentci/user.json" ]; then
+      printf '{\n  "secrets": []\n}\n' > "$(pwd)/.mentci/user.json"
+    fi
+
+    if command -v mentci-user >/dev/null 2>&1; then
+      if _mentci_user_exports="$(mentci-user export-env 2>/dev/null)"; then
+        eval "$_mentci_user_exports"
+      else
+        echo "[mentci-user] warning: export-env failed; LINKUP_API_KEY was not loaded into this shell" >&2
+      fi
+      unset _mentci_user_exports
+    fi
 
     export PI_SOURCE_STABLE_LINK="$(pwd)/.pi/pi-source"
     if [ ! -L "$PI_SOURCE_STABLE_LINK" ] || [ "$(readlink -f "$PI_SOURCE_STABLE_LINK")" != "${piMentci}/lib/node_modules/pi" ]; then

@@ -29,6 +29,11 @@
       url = "github:LiGoldragon/samskara-core";
       flake = false;
     };
+
+    mentci-user-src = {
+      url = "github:LiGoldragon/mentci-user";
+      flake = false;
+    };
   };
 
   outputs = inputs@{
@@ -74,6 +79,11 @@
           inherit pkgs samskaraReader;
         };
 
+        mentciUser = import ./nix/mentci-user.nix {
+          inherit craneLib pkgs;
+          src = inputs.mentci-user-src;
+        };
+
         piMentci = import ./nix/pi-mentci.nix {
           inherit
             lib
@@ -87,7 +97,8 @@
         };
 
         devShell = import ./nix/dev-shell.nix {
-          inherit pkgs piMentci;
+          inherit pkgs piMentci mentciUser;
+          mentciUserSrc = inputs.mentci-user-src;
         };
 
         packageCheck = import ./nix/package-check.nix {
@@ -104,6 +115,7 @@
             piMentci
             samskaraReader
             samskaraReaderMcp
+            mentciUser
             ;
           default = piMentci;
         };

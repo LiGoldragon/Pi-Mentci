@@ -2,4 +2,5 @@
 result
 .pi/agent/
 .pi/pi-source
+.mentci/user.json
 
