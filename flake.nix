@@ -34,6 +34,11 @@
       url = "github:LiGoldragon/mentci-user";
       flake = false;
     };
+
+    pi-delegate-src = {
+      url = "github:LiGoldragon/pi-delegate";
+      flake = false;
+    };
   };
 
   outputs = inputs@{
@@ -68,6 +73,10 @@
           inherit pkgs;
         };
 
+        piDelegateExtension = import ./nix/pi-delegate-extension.nix {
+          src = inputs.pi-delegate-src;
+        };
+
         samskaraReader = import ./nix/samskara-reader.nix {
           inherit craneLib pkgs;
           criomeCozoSrc = inputs.criome-cozo-src;
@@ -89,6 +98,7 @@
             lib
             pkgs
             pi
+            piDelegateExtension
             piInteractiveShellExtension
             piLinkupExtension
             piMcpAdapterExtension
@@ -104,11 +114,16 @@
         packageCheck = import ./nix/package-check.nix {
           inherit pkgs piMentci samskaraReaderMcp;
         };
+
+        testDelegate = import ./nix/test-delegate.nix {
+          inherit pkgs piMentci;
+        };
       in
       {
         packages = {
           inherit
             pi
+            piDelegateExtension
             piInteractiveShellExtension
             piLinkupExtension
             piMcpAdapterExtension
@@ -116,12 +131,17 @@
             samskaraReader
             samskaraReaderMcp
             mentciUser
+            testDelegate
             ;
           default = piMentci;
         };
 
         apps.default = flake-utils.lib.mkApp {
           drv = piMentci;
+        };
+
+        apps.test-delegate = flake-utils.lib.mkApp {
+          drv = testDelegate;
         };
 
         checks.default = packageCheck;

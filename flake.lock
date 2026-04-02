@@ -102,6 +102,22 @@
         "type": "github"
       }
     },
+    "pi-delegate-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1775157626,
+        "narHash": "sha256-rCq5+41nMUo6BZKDzgAQRVREGNzJnNw0zn7pE20Hj54=",
+        "owner": "LiGoldragon",
+        "repo": "pi-delegate",
+        "rev": "8a8b77b1b36824dfec6b932d7e23815221fa848f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "LiGoldragon",
+        "repo": "pi-delegate",
+        "type": "github"
+      }
+    },
     "pi-src": {
       "flake": false,
       "locked": {
@@ -127,6 +143,7 @@
         "flake-utils": "flake-utils",
         "mentci-user-src": "mentci-user-src",
         "nixpkgs": "nixpkgs",
+        "pi-delegate-src": "pi-delegate-src",
         "pi-src": "pi-src",
         "samskara-core-src": "samskara-core-src",
         "samskara-reader-src": "samskara-reader-src"

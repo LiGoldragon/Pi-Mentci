@@ -2,6 +2,7 @@
   lib,
   pkgs,
   pi,
+  piDelegateExtension,
   piInteractiveShellExtension,
   piLinkupExtension,
   piMcpAdapterExtension,
@@ -23,6 +24,7 @@ pkgs.stdenvNoCC.mkDerivation {
     mkdir -p "$out/lib/node_modules/pi/node_modules/@aliou"
 
     ln -s "${piLinkupExtension}" "$out/lib/node_modules/pi/node_modules/@aliou/pi-linkup"
+    ln -s "${piDelegateExtension}" "$out/lib/node_modules/pi/node_modules/pi-delegate"
     ln -s "${piInteractiveShellExtension}" "$out/lib/node_modules/pi/node_modules/pi-interactive-shell"
     ln -s "${piMcpAdapterExtension}" "$out/lib/node_modules/pi/node_modules/pi-mcp-adapter"
 
@@ -43,6 +45,7 @@ export PATH="__PI_MENTCI_PATH__:''${PATH}"
 
 exec ${pkgs.nodejs}/bin/node "''${PI_PACKAGE_DIR}/dist/cli.js" \
   --extension "''${PI_PACKAGE_DIR}/node_modules/@aliou/pi-linkup" \
+  --extension "''${PI_PACKAGE_DIR}/node_modules/pi-delegate" \
   --extension "''${PI_PACKAGE_DIR}/node_modules/pi-interactive-shell" \
   --extension "''${PI_PACKAGE_DIR}/node_modules/pi-mcp-adapter" \
   "$@"
