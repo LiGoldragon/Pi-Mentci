@@ -6,10 +6,10 @@
 
 pkgs.buildNpmPackage {
   pname = "pi";
-  version = "0.62.0";
+  version = "0.64.0";
   inherit src;
 
-  npmDepsHash = "sha256-mzFtHU3xGFZxIaQ1XTkYLmQ4UCcn9HhPVfNJ0DHi7Ps=";
+  npmDepsHash = "sha256-dzBmtAhm0X4TsKW9nwKVyhvYlMLphzNtKkDvubWQFPk=";
 
   nativeBuildInputs = [
     pkgs.makeWrapper

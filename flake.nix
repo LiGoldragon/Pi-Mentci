@@ -11,7 +11,7 @@
     };
 
     pi-src = {
-      url = "github:badlogic/pi-mono/v0.62.0";
+      url = "github:badlogic/pi-mono/v0.64.0";
       flake = false;
     };
 

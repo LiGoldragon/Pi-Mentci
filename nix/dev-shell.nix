@@ -35,10 +35,22 @@ pkgs.mkShell {
 
     export PI_SHARED_AUTH_FILE="$HOME/.pi/agent/auth.json"
     mkdir -p "$(dirname "$PI_SHARED_AUTH_FILE")"
-    if [ -e "$PI_CODING_AGENT_DIR/auth.json" ] && [ ! -L "$PI_CODING_AGENT_DIR/auth.json" ]; then
-      mv "$PI_CODING_AGENT_DIR/auth.json" "$PI_CODING_AGENT_DIR/auth.json.bak.$(date +%s)"
+
+    if [ -L "$PI_SHARED_AUTH_FILE" ] && [ ! -e "$PI_SHARED_AUTH_FILE" ]; then
+      _pi_auth_backup="$(ls -1t "$PI_SHARED_AUTH_FILE".bak* 2>/dev/null | head -n1 || true)"
+      if [ -n "$_pi_auth_backup" ]; then
+        rm -f "$PI_SHARED_AUTH_FILE"
+        cp "$_pi_auth_backup" "$PI_SHARED_AUTH_FILE"
+      fi
+      unset _pi_auth_backup
     fi
-    ln -sfn "$PI_SHARED_AUTH_FILE" "$PI_CODING_AGENT_DIR/auth.json"
+
+    if [ "$PI_CODING_AGENT_DIR" != "$(dirname "$PI_SHARED_AUTH_FILE")" ]; then
+      if [ -e "$PI_CODING_AGENT_DIR/auth.json" ] && [ ! -L "$PI_CODING_AGENT_DIR/auth.json" ]; then
+        mv "$PI_CODING_AGENT_DIR/auth.json" "$PI_CODING_AGENT_DIR/auth.json.bak.$(date +%s)"
+      fi
+      ln -sfn "$PI_SHARED_AUTH_FILE" "$PI_CODING_AGENT_DIR/auth.json"
+    fi
 
     export MENTCI_USER_SETUP_BIN="${mentciUserSrc}/data/setup.bin"
     mkdir -p "$(pwd)/.mentci"
