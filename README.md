@@ -2,9 +2,10 @@
 
 Minimal Nix-packaged Pi environment with:
 
-- `@aliou/pi-linkup`
-- `pi-interactive-shell`
-- `samskara-reader` via MCP
+- `@aliou/pi-linkup` — API key/secret management
+- `pi-delegate` — delegate tasks to Claude, Gemini, Codex, and Pi via official CLIs
+- `pi-interactive-shell` — supervised CLI delegation
+- `samskara-reader` via MCP — world state queries
 
 ## Usage
 
