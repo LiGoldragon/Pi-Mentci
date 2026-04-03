@@ -105,11 +105,11 @@
     "pi-delegate-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1775157626,
-        "narHash": "sha256-rCq5+41nMUo6BZKDzgAQRVREGNzJnNw0zn7pE20Hj54=",
+        "lastModified": 1775223425,
+        "narHash": "sha256-mnB+yZgkRDtVemly5EklJrMLbcz2d7tfCuaWArPe3DY=",
         "owner": "LiGoldragon",
         "repo": "pi-delegate",
-        "rev": "8a8b77b1b36824dfec6b932d7e23815221fa848f",
+        "rev": "dd8e883a444f76843b4b9c14b9393dc0ec93e071",
         "type": "github"
       },
       "original": {
