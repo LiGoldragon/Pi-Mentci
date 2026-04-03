@@ -17,21 +17,23 @@ pkgs.mkShell {
     export PI_CODING_AGENT_DIR="$(pwd)/.pi/agent"
     mkdir -p "$PI_CODING_AGENT_DIR"/{agents,commands,extensions,prompts,sessions,skills,themes,tools}
 
-    if [ ! -e "$PI_CODING_AGENT_DIR/models.json" ]; then
-      if [ -e "$HOME/.pi/agent/models.json" ]; then
-        cp "$HOME/.pi/agent/models.json" "$PI_CODING_AGENT_DIR/models.json"
-      else
-        printf '{\n  "providers": {}\n}\n' > "$PI_CODING_AGENT_DIR/models.json"
+    # Seed models.json and settings.json from ~/.pi/agent/ only if the
+    # project-local file does not exist AND the source is a real file
+    # (not a home-manager symlink into the Nix store). Project-local
+    # settings are authoritative once they exist — Pi owns them.
+    for _pi_cfg in models.json settings.json; do
+      if [ ! -e "$PI_CODING_AGENT_DIR/$_pi_cfg" ]; then
+        _pi_src="$HOME/.pi/agent/$_pi_cfg"
+        if [ -e "$_pi_src" ] && [ ! -L "$_pi_src" ]; then
+          cp "$_pi_src" "$PI_CODING_AGENT_DIR/$_pi_cfg"
+        elif [ -e "$_pi_src" ] && [ -L "$_pi_src" ]; then
+          # Home-manager symlink — dereference to get a writable copy
+          cp -L "$_pi_src" "$PI_CODING_AGENT_DIR/$_pi_cfg"
+          echo "[dev-shell] warning: seeded $_pi_cfg from home-manager symlink; changes to ~/.pi/agent/$_pi_cfg won't persist until home-manager is fixed" >&2
+        fi
       fi
-    fi
-
-    if [ ! -e "$PI_CODING_AGENT_DIR/settings.json" ]; then
-      if [ -e "$HOME/.pi/agent/settings.json" ]; then
-        cp "$HOME/.pi/agent/settings.json" "$PI_CODING_AGENT_DIR/settings.json"
-      else
-        printf '{\n  "packages": []\n}\n' > "$PI_CODING_AGENT_DIR/settings.json"
-      fi
-    fi
+    done
+    unset _pi_cfg _pi_src
 
     export PI_SHARED_AUTH_FILE="$HOME/.pi/agent/auth.json"
     mkdir -p "$(dirname "$PI_SHARED_AUTH_FILE")"
